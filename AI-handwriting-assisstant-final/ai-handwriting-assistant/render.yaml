@@ -1,0 +1,25 @@
+# One-click deploy on Render (https://render.com): New + > Blueprint > pick this repo.
+# One free web service serves the API AND the web app on a single URL.
+# Demo setup: documents are kept in memory (lost on restart/redeploy). For persistence,
+# add a MySQL database and set DATABASE_URL instead of ALLOW_MEMORY_STORE.
+services:
+  - type: web
+    name: ai-handwriting-assistant
+    runtime: node
+    plan: free
+    # --include=dev: the build needs Vite/TypeScript even though NODE_ENV=production.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: ALLOW_MEMORY_STORE
+        value: "true"
+      - key: TRUST_PROXY
+        value: "1"
+      # Optional: enables real AI organising and audio transcription. Leave blank to skip.
+      - key: OPENAI_API_KEY
+        sync: false

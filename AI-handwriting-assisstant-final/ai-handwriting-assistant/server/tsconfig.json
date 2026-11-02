@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "paths": { "@hw/shared": ["../shared/src/index.ts"] }
+  },
+  "include": ["src", "tests", "scripts", "vitest.config.ts"]
+}
